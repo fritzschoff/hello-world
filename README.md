@@ -47,17 +47,20 @@ The app directory contains a Next.js application for interacting with the protoc
 ### Setup
 
 1. Install dependencies:
+
 ```bash
 cd app
 npm install
 ```
 
 2. Copy environment variables:
+
 ```bash
 cp .env.example .env.local
 ```
 
 3. Set contract addresses in `.env.local`:
+
 ```
 NEXT_PUBLIC_STABLECOIN_ADDRESS=0x...
 NEXT_PUBLIC_COLLATERAL_MANAGER_ADDRESS=0x...
@@ -66,6 +69,7 @@ NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
 ```
 
 4. Run development server:
+
 ```bash
 npm run dev
 ```
@@ -95,6 +99,29 @@ npm run test:contracts
 
 # Build contracts
 npm run build:contracts
+
+# Format contracts
+npm run format:contracts
+
+# Lint UI
+npm run lint:ui
+```
+
+### Pre-commit Hooks
+
+This repository uses Husky to run pre-commit hooks that:
+
+- Format Solidity contracts with `forge fmt`
+- Lint the UI with Next.js ESLint
+
+The hooks run automatically on `git commit`. To manually run:
+
+```bash
+# Format all contracts
+npm run format:contracts
+
+# Lint UI
+npm run lint:ui
 ```
 
 ## Deployment
@@ -102,6 +129,7 @@ npm run build:contracts
 ### Contracts
 
 Deploy contracts using the deployment script:
+
 ```bash
 cd contracts
 forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --private-key $PRIVATE_KEY
@@ -110,6 +138,7 @@ forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --p
 ### Frontend
 
 Deploy to Vercel or your preferred hosting:
+
 ```bash
 cd app
 npm run build
@@ -118,4 +147,3 @@ npm run build
 ## License
 
 MIT
-

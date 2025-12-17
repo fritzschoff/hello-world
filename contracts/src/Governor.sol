@@ -1,9 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {
-    GovernorUpgradeable
-} from "@openzeppelin/contracts-upgradeable/governance/GovernorUpgradeable.sol";
+import {GovernorUpgradeable} from "@openzeppelin/contracts-upgradeable/governance/GovernorUpgradeable.sol";
 import {
     GovernorSettingsUpgradeable
 } from "@openzeppelin/contracts-upgradeable/governance/extensions/GovernorSettingsUpgradeable.sol";
@@ -16,15 +14,9 @@ import {
 import {
     GovernorVotesQuorumFractionUpgradeable
 } from "@openzeppelin/contracts-upgradeable/governance/extensions/GovernorVotesQuorumFractionUpgradeable.sol";
-import {
-    Initializable
-} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
-import {
-    UUPSUpgradeable
-} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
-import {
-    OwnableUpgradeable
-} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
+import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {Stablecoin} from "./Stablecoin.sol";
 
 contract Governor is
@@ -51,11 +43,7 @@ contract Governor is
         uint256 quorumNumerator_
     ) public initializer {
         __Governor_init("Stablecoin Governor");
-        __GovernorSettings_init(
-            votingDelay_,
-            votingPeriod_,
-            proposalThreshold_
-        );
+        __GovernorSettings_init(votingDelay_, votingPeriod_, proposalThreshold_);
         __GovernorVotes_init(_token);
         __GovernorVotesQuorumFraction_init(quorumNumerator_);
         __Ownable_init(initialOwner);
@@ -64,21 +52,11 @@ contract Governor is
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
 
-    function votingDelay()
-        public
-        view
-        override(GovernorUpgradeable, GovernorSettingsUpgradeable)
-        returns (uint256)
-    {
+    function votingDelay() public view override(GovernorUpgradeable, GovernorSettingsUpgradeable) returns (uint256) {
         return super.votingDelay();
     }
 
-    function votingPeriod()
-        public
-        view
-        override(GovernorUpgradeable, GovernorSettingsUpgradeable)
-        returns (uint256)
-    {
+    function votingPeriod() public view override(GovernorUpgradeable, GovernorSettingsUpgradeable) returns (uint256) {
         return super.votingPeriod();
     }
 

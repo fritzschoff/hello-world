@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+
+# Run lint-staged to format contracts and lint UI
+npx lint-staged
+

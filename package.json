@@ -10,10 +10,22 @@
     "dev": "npm run dev --workspace=app",
     "build": "npm run build --workspace=app",
     "test:contracts": "npm run test --workspace=contracts",
-    "build:contracts": "npm run build --workspace=contracts"
+    "build:contracts": "npm run build --workspace=contracts",
+    "prepare": "husky install",
+    "format:contracts": "cd contracts && forge fmt",
+    "lint:ui": "cd app && npm run lint"
   },
   "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.2.5"
+  },
+  "lint-staged": {
+    "contracts/**/*.sol": [
+      "bash -c 'cd contracts && forge fmt'"
+    ],
+    "app/**/*.{ts,tsx,js,jsx}": [
+      "bash -c 'cd app && npm run lint'"
+    ]
   }
 }
-

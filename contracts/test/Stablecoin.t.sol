@@ -2,13 +2,9 @@
 pragma solidity ^0.8.30;
 
 import {Test, console} from "forge-std/Test.sol";
-import {
-    ERC1967Proxy
-} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
+import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {Stablecoin} from "../src/Stablecoin.sol";
-import {
-    IERC20Permit
-} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
+import {IERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 
 contract StablecoinTest is Test {
     Stablecoin public stablecoin;
@@ -76,11 +72,7 @@ contract StablecoinTest is Test {
         stablecoin.burn(user, 500);
     }
 
-    function test_Permit(
-        uint256 privateKey,
-        uint256 amount,
-        uint256 deadline
-    ) public {
+    function test_Permit(uint256 privateKey, uint256 amount, uint256 deadline) public {
         vm.assume(privateKey > 0 && privateKey < type(uint256).max / 2);
         vm.assume(amount > 0 && amount < type(uint128).max);
         vm.assume(deadline > block.timestamp);
@@ -92,9 +84,7 @@ contract StablecoinTest is Test {
         bytes32 domainSeparator = stablecoin.DOMAIN_SEPARATOR();
         bytes32 structHash = keccak256(
             abi.encode(
-                keccak256(
-                    "Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"
-                ),
+                keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)"),
                 signer,
                 address(this),
                 amount,
@@ -102,9 +92,7 @@ contract StablecoinTest is Test {
                 deadline
             )
         );
-        bytes32 digest = keccak256(
-            abi.encodePacked("\x19\x01", domainSeparator, structHash)
-        );
+        bytes32 digest = keccak256(abi.encodePacked("\x19\x01", domainSeparator, structHash));
 
         (uint8 v, bytes32 r, bytes32 s) = vm.sign(privateKey, digest);
 
@@ -115,25 +103,22 @@ contract StablecoinTest is Test {
 
     function test_VotingPower(uint256 amount) public {
         vm.assume(amount > 0 && amount < type(uint128).max);
-        
+
         vm.roll(block.number + 1);
-        
+
         vm.prank(minter);
         stablecoin.mint(user, amount);
-        
+
         vm.prank(user);
         stablecoin.delegate(user);
-        
+
         vm.roll(block.number + 1);
-        
+
         assertEq(stablecoin.getVotes(user), amount);
         assertEq(stablecoin.getPastVotes(user, block.number - 1), amount);
     }
 
-    function test_Transfer_UpdatesVotingPower(
-        uint256 amount1,
-        uint256 amount2
-    ) public {
+    function test_Transfer_UpdatesVotingPower(uint256 amount1, uint256 amount2) public {
         vm.assume(amount1 > 0 && amount1 < type(uint128).max);
         vm.assume(amount2 > 0 && amount2 < type(uint128).max);
 

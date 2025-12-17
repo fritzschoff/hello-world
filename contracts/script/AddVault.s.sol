@@ -7,14 +7,10 @@ import {IERC4626} from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 
 contract AddVaultScript is Script {
     function run() public {
-        address collateralManagerAddress = vm.envAddress(
-            "COLLATERAL_MANAGER_ADDRESS"
-        );
+        address collateralManagerAddress = vm.envAddress("COLLATERAL_MANAGER_ADDRESS");
         address vaultAddress = vm.envAddress("VAULT_ADDRESS");
 
-        CollateralManager collateralManager = CollateralManager(
-            collateralManagerAddress
-        );
+        CollateralManager collateralManager = CollateralManager(collateralManagerAddress);
         IERC4626 vault = IERC4626(vaultAddress);
 
         vm.startBroadcast();

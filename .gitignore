@@ -9,3 +9,4 @@ dist/
 .cache/
 coverage/
 .vercel
+.husky/_/

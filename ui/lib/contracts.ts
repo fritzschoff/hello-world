@@ -2,6 +2,7 @@ import { Address } from 'viem';
 import StablecoinABI from './abis/Stablecoin.json';
 import CollateralManagerABI from './abis/CollateralManager.json';
 import GovernorABI from './abis/Governor.json';
+import TreasuryABI from './abis/Treasury.json';
 
 export const CONTRACTS = {
   Stablecoin: {
@@ -16,5 +17,10 @@ export const CONTRACTS = {
     address: process.env.NEXT_PUBLIC_GOVERNOR_ADDRESS as Address,
     abi: GovernorABI,
   },
+  Treasury: {
+    address: process.env.NEXT_PUBLIC_TREASURY_ADDRESS as Address,
+    abi: TreasuryABI,
+  },
 } as const;
+
 

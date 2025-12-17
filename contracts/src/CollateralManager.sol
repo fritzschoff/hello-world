@@ -9,16 +9,20 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/UUPSUpgradeable.sol";
 import {OwnableUpgradeable} from "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import {Stablecoin} from "./Stablecoin.sol";
+import {Treasury} from "./Treasury.sol";
 
 contract CollateralManager is Initializable, UUPSUpgradeable, OwnableUpgradeable {
     using SafeERC20 for IERC20;
     using SafeERC20 for IERC4626;
 
     Stablecoin public stablecoin;
+    Treasury public treasury;
     uint256 public collateralizationRatio;
     uint256 public constant RATIO_PRECISION = 10000;
     uint256 public liquidationBonus;
     uint256 public constant BONUS_PRECISION = 10000;
+    uint256 public mintingFee;
+    uint256 public constant FEE_PRECISION = 10000;
 
     IERC4626[] public supportedVaults;
     mapping(IERC4626 vault => bool) public isSupportedVault;
@@ -40,18 +44,23 @@ contract CollateralManager is Initializable, UUPSUpgradeable, OwnableUpgradeable
     );
     event CollateralizationRatioUpdated(uint256 oldRatio, uint256 newRatio);
     event LiquidationBonusUpdated(uint256 oldBonus, uint256 newBonus);
+    event MintingFeeUpdated(uint256 oldFee, uint256 newFee);
+    event TreasuryUpdated(address indexed oldTreasury, address indexed newTreasury);
+    event MoreStablecoinMinted(address indexed user, uint256 amount, uint256 fee);
 
     /// @custom:oz-upgrades-unsafe-allow constructor
     constructor() {
         _disableInitializers();
     }
 
-    function initialize(address _stablecoin, address initialOwner) public initializer {
+    function initialize(address _stablecoin, address _treasury, address initialOwner) public initializer {
         __Ownable_init(initialOwner);
         __UUPSUpgradeable_init();
         stablecoin = Stablecoin(_stablecoin);
+        treasury = Treasury(_treasury);
         collateralizationRatio = 15000;
         liquidationBonus = 500;
+        mintingFee = 50;
     }
 
     function _authorizeUpgrade(address) internal override onlyOwner {}
@@ -69,6 +78,20 @@ contract CollateralManager is Initializable, UUPSUpgradeable, OwnableUpgradeable
         uint256 oldBonus = liquidationBonus;
         liquidationBonus = newBonus;
         emit LiquidationBonusUpdated(oldBonus, newBonus);
+    }
+
+    function setMintingFee(uint256 newFee) external onlyOwner {
+        require(newFee <= 1000, "CollateralManager: fee must be at most 10%");
+        uint256 oldFee = mintingFee;
+        mintingFee = newFee;
+        emit MintingFeeUpdated(oldFee, newFee);
+    }
+
+    function setTreasury(address _treasury) external onlyOwner {
+        require(_treasury != address(0), "CollateralManager: treasury cannot be zero address");
+        address oldTreasury = address(treasury);
+        treasury = Treasury(_treasury);
+        emit TreasuryUpdated(oldTreasury, _treasury);
     }
 
     function addSupportedVault(IERC4626 vault) external onlyOwner {
@@ -102,9 +125,15 @@ contract CollateralManager is Initializable, UUPSUpgradeable, OwnableUpgradeable
             uint256 stablecoinToMint = (excessCollateral * RATIO_PRECISION) / collateralizationRatio;
 
             if (stablecoinToMint > 0) {
-                stablecoin.mint(msg.sender, stablecoinToMint);
+                uint256 fee = (stablecoinToMint * mintingFee) / FEE_PRECISION;
+                uint256 stablecoinToUser = stablecoinToMint - fee;
+
+                stablecoin.mint(msg.sender, stablecoinToUser);
+                if (fee > 0) {
+                    stablecoin.mint(address(treasury), fee);
+                }
                 userDebt[msg.sender] += stablecoinToMint;
-                emit CollateralDeposited(msg.sender, vault, shares, stablecoinToMint);
+                emit CollateralDeposited(msg.sender, vault, shares, stablecoinToUser);
                 return;
             }
         }
@@ -156,6 +185,30 @@ contract CollateralManager is Initializable, UUPSUpgradeable, OwnableUpgradeable
         userDebt[user] -= amount;
 
         emit DebtRepaid(user, amount);
+    }
+
+    function mintMoreStablecoin() external {
+        uint256 totalCollateralValue = getTotalCollateralValue(msg.sender);
+        uint256 currentDebt = userDebt[msg.sender];
+        uint256 requiredCollateralForDebt = (currentDebt * collateralizationRatio) / RATIO_PRECISION;
+
+        require(totalCollateralValue > requiredCollateralForDebt, "CollateralManager: no excess collateral available");
+
+        uint256 excessCollateral = totalCollateralValue - requiredCollateralForDebt;
+        uint256 stablecoinToMint = (excessCollateral * RATIO_PRECISION) / collateralizationRatio;
+
+        require(stablecoinToMint > 0, "CollateralManager: nothing to mint");
+
+        uint256 fee = (stablecoinToMint * mintingFee) / FEE_PRECISION;
+        uint256 stablecoinToUser = stablecoinToMint - fee;
+
+        stablecoin.mint(msg.sender, stablecoinToUser);
+        if (fee > 0) {
+            stablecoin.mint(address(treasury), fee);
+        }
+        userDebt[msg.sender] += stablecoinToMint;
+
+        emit MoreStablecoinMinted(msg.sender, stablecoinToUser, fee);
     }
 
     function getTotalCollateralValue(address user) public view returns (uint256) {

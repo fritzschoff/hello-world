@@ -156,3 +156,51 @@ export function useLiquidate() {
   };
 }
 
+export function useMintMoreStablecoin() {
+  const { writeContract, data: hash, isPending } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
+    hash,
+  });
+
+  const mintMore = () => {
+    writeContract({
+      address: CONTRACTS.CollateralManager.address,
+      abi: CONTRACTS.CollateralManager.abi,
+      functionName: 'mintMoreStablecoin',
+      args: [],
+    });
+  };
+
+  return {
+    mintMore,
+    hash,
+    isPending,
+    isConfirming,
+    isSuccess,
+  };
+}
+
+export function useMintingFee() {
+  return useReadContract({
+    address: CONTRACTS.CollateralManager.address,
+    abi: CONTRACTS.CollateralManager.abi,
+    functionName: 'mintingFee',
+  });
+}
+
+export function useCollateralizationRatio() {
+  return useReadContract({
+    address: CONTRACTS.CollateralManager.address,
+    abi: CONTRACTS.CollateralManager.abi,
+    functionName: 'collateralizationRatio',
+  });
+}
+
+export function useLiquidationBonus() {
+  return useReadContract({
+    address: CONTRACTS.CollateralManager.address,
+    abi: CONTRACTS.CollateralManager.abi,
+    functionName: 'liquidationBonus',
+  });
+}
+

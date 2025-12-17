@@ -4,6 +4,9 @@ import { ConnectWallet } from '../components/ConnectWallet';
 import { PositionOverview } from '../components/PositionOverview';
 import { DepositCollateral } from '../components/DepositCollateral';
 import { RepayDebt } from '../components/RepayDebt';
+import { MintMoreStablecoin } from '../components/MintMoreStablecoin';
+import { Governance } from '../components/Governance';
+import { Treasury } from '../components/Treasury';
 
 export default function Home() {
   return (
@@ -21,7 +24,10 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <PositionOverview />
           <DepositCollateral />
+          <MintMoreStablecoin />
           <RepayDebt />
+          <Governance />
+          <Treasury />
         </div>
       </main>
     </div>

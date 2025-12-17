@@ -1,1118 +1,147 @@
-[
-  {
-    "type": "constructor",
-    "inputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "CLOCK_MODE",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "DOMAIN_SEPARATOR",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "UPGRADE_INTERFACE_VERSION",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "allowance",
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "spender",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "approve",
-    "inputs": [
-      {
-        "name": "spender",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "value",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool",
-        "internalType": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "balanceOf",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "burn",
-    "inputs": [
-      {
-        "name": "from",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "checkpoints",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "pos",
-        "type": "uint32",
-        "internalType": "uint32"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "tuple",
-        "internalType": "struct Checkpoints.Checkpoint208",
-        "components": [
-          {
-            "name": "_key",
-            "type": "uint48",
-            "internalType": "uint48"
-          },
-          {
-            "name": "_value",
-            "type": "uint208",
-            "internalType": "uint208"
-          }
-        ]
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "clock",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint48",
-        "internalType": "uint48"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "decimals",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint8",
-        "internalType": "uint8"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "delegate",
-    "inputs": [
-      {
-        "name": "delegatee",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "delegateBySig",
-    "inputs": [
-      {
-        "name": "delegatee",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "nonce",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "expiry",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "v",
-        "type": "uint8",
-        "internalType": "uint8"
-      },
-      {
-        "name": "r",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      },
-      {
-        "name": "s",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "delegates",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "eip712Domain",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "fields",
-        "type": "bytes1",
-        "internalType": "bytes1"
-      },
-      {
-        "name": "name",
-        "type": "string",
-        "internalType": "string"
-      },
-      {
-        "name": "version",
-        "type": "string",
-        "internalType": "string"
-      },
-      {
-        "name": "chainId",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "verifyingContract",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "salt",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      },
-      {
-        "name": "extensions",
-        "type": "uint256[]",
-        "internalType": "uint256[]"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "getPastTotalSupply",
-    "inputs": [
-      {
-        "name": "timepoint",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "getPastVotes",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "timepoint",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "getVotes",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "initialize",
-    "inputs": [
-      {
-        "name": "initialOwner",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "mint",
-    "inputs": [
-      {
-        "name": "to",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "amount",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "minter",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "name",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "nonces",
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "numCheckpoints",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint32",
-        "internalType": "uint32"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "owner",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "permit",
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "spender",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "value",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "deadline",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "v",
-        "type": "uint8",
-        "internalType": "uint8"
-      },
-      {
-        "name": "r",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      },
-      {
-        "name": "s",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "proxiableUUID",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "renounceOwnership",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "setMinter",
-    "inputs": [
-      {
-        "name": "_minter",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "symbol",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "totalSupply",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "transfer",
-    "inputs": [
-      {
-        "name": "to",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "value",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool",
-        "internalType": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "transferFrom",
-    "inputs": [
-      {
-        "name": "from",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "to",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "value",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool",
-        "internalType": "bool"
-      }
-    ],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "transferOwnership",
-    "inputs": [
-      {
-        "name": "newOwner",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "upgradeToAndCall",
-    "inputs": [
-      {
-        "name": "newImplementation",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "data",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "payable"
-  },
-  {
-    "type": "event",
-    "name": "Approval",
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "spender",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "value",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "DelegateChanged",
-    "inputs": [
-      {
-        "name": "delegator",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "fromDelegate",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "toDelegate",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "DelegateVotesChanged",
-    "inputs": [
-      {
-        "name": "delegate",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "previousVotes",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "newVotes",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "EIP712DomainChanged",
-    "inputs": [],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "Initialized",
-    "inputs": [
-      {
-        "name": "version",
-        "type": "uint64",
-        "indexed": false,
-        "internalType": "uint64"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "OwnershipTransferred",
-    "inputs": [
-      {
-        "name": "previousOwner",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "newOwner",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "Transfer",
-    "inputs": [
-      {
-        "name": "from",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "to",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "value",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "Upgraded",
-    "inputs": [
-      {
-        "name": "implementation",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      }
-    ],
-    "anonymous": false
-  },
-  {
-    "type": "error",
-    "name": "AddressEmptyCode",
-    "inputs": [
-      {
-        "name": "target",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "CheckpointUnorderedInsertion",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ECDSAInvalidSignature",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ECDSAInvalidSignatureLength",
-    "inputs": [
-      {
-        "name": "length",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ECDSAInvalidSignatureS",
-    "inputs": [
-      {
-        "name": "s",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC1967InvalidImplementation",
-    "inputs": [
-      {
-        "name": "implementation",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC1967NonPayable",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "ERC20ExceededSafeSupply",
-    "inputs": [
-      {
-        "name": "increasedSupply",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "cap",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC20InsufficientAllowance",
-    "inputs": [
-      {
-        "name": "spender",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "allowance",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "needed",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC20InsufficientBalance",
-    "inputs": [
-      {
-        "name": "sender",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "balance",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "needed",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC20InvalidApprover",
-    "inputs": [
-      {
-        "name": "approver",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC20InvalidReceiver",
-    "inputs": [
-      {
-        "name": "receiver",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC20InvalidSender",
-    "inputs": [
-      {
-        "name": "sender",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC20InvalidSpender",
-    "inputs": [
-      {
-        "name": "spender",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC2612ExpiredSignature",
-    "inputs": [
-      {
-        "name": "deadline",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC2612InvalidSigner",
-    "inputs": [
-      {
-        "name": "signer",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "owner",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC5805FutureLookup",
-    "inputs": [
-      {
-        "name": "timepoint",
-        "type": "uint256",
-        "internalType": "uint256"
-      },
-      {
-        "name": "clock",
-        "type": "uint48",
-        "internalType": "uint48"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ERC6372InconsistentClock",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "FailedCall",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "InvalidAccountNonce",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      },
-      {
-        "name": "currentNonce",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "InvalidInitialization",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "NotInitializing",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "OwnableInvalidOwner",
-    "inputs": [
-      {
-        "name": "owner",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "OwnableUnauthorizedAccount",
-    "inputs": [
-      {
-        "name": "account",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "SafeCastOverflowedUintDowncast",
-    "inputs": [
-      {
-        "name": "bits",
-        "type": "uint8",
-        "internalType": "uint8"
-      },
-      {
-        "name": "value",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "UUPSUnauthorizedCallContext",
-    "inputs": []
-  },
-  {
-    "type": "error",
-    "name": "UUPSUnsupportedProxiableUUID",
-    "inputs": [
-      {
-        "name": "slot",
-        "type": "bytes32",
-        "internalType": "bytes32"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "VotesExpiredSignature",
-    "inputs": [
-      {
-        "name": "expiry",
-        "type": "uint256",
-        "internalType": "uint256"
-      }
-    ]
-  }
-]
+
+╭-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------╮
+| Type        | Signature                                                                            | Selector                                                           |
++=========================================================================================================================================================================+
+| event       | Approval(address,address,uint256)                                                    | 0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925 |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| event       | DelegateChanged(address,address,address)                                             | 0x3134e8a2e6d97e929a7e54011ea5485d7d196dd5f0ba4d4ef95803e8e3fc257f |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| event       | DelegateVotesChanged(address,uint256,uint256)                                        | 0xdec2bacdd2f05b59de34da9b523dff8be42e5e38e818c82fdb0bae774387a724 |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| event       | EIP712DomainChanged()                                                                | 0x0a6387c9ea3628b88a633bb4f3b151770f70085117a15f9bf3787cda53f13d31 |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| event       | Initialized(uint64)                                                                  | 0xc7f505b2f371ae2175ee4913f4499e1f2633a7b5936321eed1cdaeb6115181d2 |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| event       | OwnershipTransferred(address,address)                                                | 0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0 |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| event       | Transfer(address,address,uint256)                                                    | 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| event       | Upgraded(address)                                                                    | 0xbc7cd75a20ee27fd9adebab32041f755214dbc6bffa90cc0225b39da2e5c2d3b |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | AddressEmptyCode(address)                                                            | 0x9996b315                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | CheckpointUnorderedInsertion()                                                       | 0x2520601d                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ECDSAInvalidSignature()                                                              | 0xf645eedf                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ECDSAInvalidSignatureLength(uint256)                                                 | 0xfce698f7                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ECDSAInvalidSignatureS(bytes32)                                                      | 0xd78bce0c                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC1967InvalidImplementation(address)                                                | 0x4c9c8ce3                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC1967NonPayable()                                                                  | 0xb398979f                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC20ExceededSafeSupply(uint256,uint256)                                             | 0x1cb15d26                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC20InsufficientAllowance(address,uint256,uint256)                                  | 0xfb8f41b2                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC20InsufficientBalance(address,uint256,uint256)                                    | 0xe450d38c                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC20InvalidApprover(address)                                                        | 0xe602df05                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC20InvalidReceiver(address)                                                        | 0xec442f05                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC20InvalidSender(address)                                                          | 0x96c6fd1e                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC20InvalidSpender(address)                                                         | 0x94280d62                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC2612ExpiredSignature(uint256)                                                     | 0x62791302                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC2612InvalidSigner(address,address)                                                | 0x4b800e46                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC5805FutureLookup(uint256,uint48)                                                  | 0xecd3f81e                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | ERC6372InconsistentClock()                                                           | 0x6ff07140                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | FailedCall()                                                                         | 0xd6bda275                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | InvalidAccountNonce(address,uint256)                                                 | 0x752d88c0                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | InvalidInitialization()                                                              | 0xf92ee8a9                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | NotInitializing()                                                                    | 0xd7e6bcf8                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | OwnableInvalidOwner(address)                                                         | 0x1e4fbdf7                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | OwnableUnauthorizedAccount(address)                                                  | 0x118cdaa7                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | SafeCastOverflowedUintDowncast(uint8,uint256)                                        | 0x6dfcc650                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | UUPSUnauthorizedCallContext()                                                        | 0xe07c8dba                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | UUPSUnsupportedProxiableUUID(bytes32)                                                | 0xaa1d49a4                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| error       | VotesExpiredSignature(uint256)                                                       | 0x4683af0e                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | CLOCK_MODE() view returns (string)                                                   | 0x4bf5d7e9                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | DOMAIN_SEPARATOR() view returns (bytes32)                                            | 0x3644e515                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | UPGRADE_INTERFACE_VERSION() view returns (string)                                    | 0xad3cb1cc                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | allowance(address,address) view returns (uint256)                                    | 0xdd62ed3e                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | approve(address,uint256) nonpayable returns (bool)                                   | 0x095ea7b3                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | balanceOf(address) view returns (uint256)                                            | 0x70a08231                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | burn(address,uint256) nonpayable                                                     | 0x9dc29fac                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | checkpoints(address,uint32) view returns (Checkpoints.Checkpoint208)                 | 0xf1127ed8                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | clock() view returns (uint48)                                                        | 0x91ddadf4                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | decimals() view returns (uint8)                                                      | 0x313ce567                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | delegate(address) nonpayable                                                         | 0x5c19a95c                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) nonpayable              | 0xc3cda520                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | delegates(address) view returns (address)                                            | 0x587cde1e                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | eip712Domain() view returns (bytes1,string,string,uint256,address,bytes32,uint256[]) | 0x84b0196e                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | getPastTotalSupply(uint256) view returns (uint256)                                   | 0x8e539e8c                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | getPastVotes(address,uint256) view returns (uint256)                                 | 0x3a46b1a8                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | getVotes(address) view returns (uint256)                                             | 0x9ab24eb0                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | initialize(address) nonpayable                                                       | 0xc4d66de8                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | mint(address,uint256) nonpayable                                                     | 0x40c10f19                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | minter() view returns (address)                                                      | 0x07546172                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | name() view returns (string)                                                         | 0x06fdde03                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | nonces(address) view returns (uint256)                                               | 0x7ecebe00                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | numCheckpoints(address) view returns (uint32)                                        | 0x6fcfff45                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | owner() view returns (address)                                                       | 0x8da5cb5b                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | permit(address,address,uint256,uint256,uint8,bytes32,bytes32) nonpayable             | 0xd505accf                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | proxiableUUID() view returns (bytes32)                                               | 0x52d1902d                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | renounceOwnership() nonpayable                                                       | 0x715018a6                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | setMinter(address) nonpayable                                                        | 0xfca3b5aa                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | symbol() view returns (string)                                                       | 0x95d89b41                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | totalSupply() view returns (uint256)                                                 | 0x18160ddd                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | transfer(address,uint256) nonpayable returns (bool)                                  | 0xa9059cbb                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | transferFrom(address,address,uint256) nonpayable returns (bool)                      | 0x23b872dd                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | transferOwnership(address) nonpayable                                                | 0xf2fde38b                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| function    | upgradeToAndCall(address,bytes) payable                                              | 0x4f1ef286                                                         |
+|-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------|
+| constructor | constructor() nonpayable                                                             |                                                                    |
+╰-------------+--------------------------------------------------------------------------------------+--------------------------------------------------------------------╯
+

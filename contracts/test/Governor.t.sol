@@ -6,6 +6,7 @@ import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.s
 import {Stablecoin} from "../src/Stablecoin.sol";
 import {CollateralManager} from "../src/CollateralManager.sol";
 import {Governor} from "../src/Governor.sol";
+import {Treasury} from "../src/Treasury.sol";
 
 contract GovernorTest is Test {
     Stablecoin public stablecoin;
@@ -30,7 +31,13 @@ contract GovernorTest is Test {
         stablecoin = Stablecoin(address(stablecoinProxy));
 
         CollateralManager managerImpl = new CollateralManager();
-        bytes memory managerInitData = abi.encodeCall(CollateralManager.initialize, (address(stablecoin), owner));
+        Treasury treasuryImpl = new Treasury();
+        bytes memory treasuryInitData = abi.encodeCall(Treasury.initialize, (owner));
+        ERC1967Proxy treasuryProxy = new ERC1967Proxy(address(treasuryImpl), treasuryInitData);
+        Treasury treasury = Treasury(address(treasuryProxy));
+
+        bytes memory managerInitData =
+            abi.encodeCall(CollateralManager.initialize, (address(stablecoin), address(treasury), owner));
         ERC1967Proxy managerProxy = new ERC1967Proxy(address(managerImpl), managerInitData);
         collateralManager = CollateralManager(address(managerProxy));
 

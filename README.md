@@ -18,8 +18,9 @@ The contracts directory contains all Solidity smart contracts, tests, and deploy
 ### Key Contracts
 
 - **Stablecoin**: ERC20 governance token with voting capabilities
-- **CollateralManager**: Manages collateral deposits and stablecoin minting
+- **CollateralManager**: Manages collateral deposits and stablecoin minting with configurable fees
 - **Governor**: Governance contract for protocol parameter changes
+- **Treasury**: Holds protocol fees collected from minting operations
 
 ### Commands
 
@@ -29,6 +30,10 @@ forge build          # Build contracts
 forge test           # Run tests
 forge test --fuzz-runs 1000  # Run tests with fuzzing
 forge script script/Deploy.s.sol:DeployScript  # Deploy contracts
+
+# Local development
+npm run anvil        # Start local blockchain (Anvil)
+npm run deploy:local # Deploy contracts to local Anvil instance
 ```
 
 ## Frontend UI
@@ -40,7 +45,10 @@ The ui directory contains a Next.js application for interacting with the protoco
 - Wallet connection via RainbowKit
 - View position (collateral, debt, health factor)
 - Deposit collateral and mint stablecoin
+- Mint more stablecoin on existing collateral
 - Repay debt
+- Governance: Create proposals, vote, and execute
+- Treasury: View and withdraw protocol fees
 - All queries use React Query
 - Blockchain operations use Viem
 
@@ -53,24 +61,45 @@ cd ui
 npm install
 ```
 
-2. Copy environment variables:
+2. Deploy contracts to local Anvil (if not already deployed):
 
 ```bash
+cd contracts
+npm run anvil  # In one terminal (keep it running)
+npm run deploy:local  # In another terminal
+```
+
+3. Copy environment variables:
+
+```bash
+cd ui
 cp .env.example .env.local
 ```
 
-3. Set contract addresses in `.env.local`:
+4. Get contract addresses from the deployment output. The proxy addresses are shown in the "Deployment Summary" section. For example:
 
 ```
-NEXT_PUBLIC_STABLECOIN_ADDRESS=0x...
-NEXT_PUBLIC_COLLATERAL_MANAGER_ADDRESS=0x...
-NEXT_PUBLIC_GOVERNOR_ADDRESS=0x...
+Stablecoin (proxy): 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
+CollateralManager (proxy): 0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
+Governor (proxy): 0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
+```
+
+5. Set contract addresses in `ui/.env.local`:
+
+```
+NEXT_PUBLIC_STABLECOIN_ADDRESS=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
+NEXT_PUBLIC_COLLATERAL_MANAGER_ADDRESS=0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
+NEXT_PUBLIC_GOVERNOR_ADDRESS=0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
+NEXT_PUBLIC_TREASURY_ADDRESS=0x...
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
 ```
 
-4. Run development server:
+**Note**: For localhost testing, WalletConnect project ID is optional. The localhost chain (Anvil, chain ID 31337) is already configured in the UI.
+
+6. Run development server:
 
 ```bash
+cd ui
 npm run dev
 ```
 

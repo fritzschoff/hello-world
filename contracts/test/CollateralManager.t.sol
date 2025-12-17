@@ -9,6 +9,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {IERC4626} from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import {Stablecoin} from "../src/Stablecoin.sol";
 import {CollateralManager} from "../src/CollateralManager.sol";
+import {Treasury} from "../src/Treasury.sol";
 
 contract MockERC20 is ERC20 {
     constructor() ERC20("Mock Token", "MOCK") {
@@ -49,7 +50,13 @@ contract CollateralManagerTest is Test {
         stablecoin = Stablecoin(address(stablecoinProxy));
 
         CollateralManager managerImpl = new CollateralManager();
-        bytes memory managerInitData = abi.encodeCall(CollateralManager.initialize, (address(stablecoin), owner));
+        Treasury treasuryImpl = new Treasury();
+        bytes memory treasuryInitData = abi.encodeCall(Treasury.initialize, (owner));
+        ERC1967Proxy treasuryProxy = new ERC1967Proxy(address(treasuryImpl), treasuryInitData);
+        Treasury treasury = Treasury(address(treasuryProxy));
+
+        bytes memory managerInitData =
+            abi.encodeCall(CollateralManager.initialize, (address(stablecoin), address(treasury), owner));
         ERC1967Proxy managerProxy = new ERC1967Proxy(address(managerImpl), managerInitData);
         collateralManager = CollateralManager(address(managerProxy));
 

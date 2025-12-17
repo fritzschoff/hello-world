@@ -7,7 +7,7 @@ This project implements a collateralized stablecoin system using ERC4626 vault s
 - **Stablecoin**: Upgradeable ERC20 stablecoin token
 - **CollateralManager**: Manages collateral deposits and stablecoin minting
 - **Vault**: ERC4626 vault for asset management
-- **HelloWorld**: Upgradeable contract template
+- **Treasury**: Holds protocol fees collected from minting operations
 
 All contracts use the UUPS (Universal Upgradeable Proxy Standard) pattern for upgradeability.
 
@@ -62,7 +62,7 @@ $ anvil
 
 #### Deploy All Contracts
 
-Deploy all contracts (HelloWorld, Stablecoin, CollateralManager) using UUPS proxy pattern:
+Deploy all contracts (Stablecoin, Treasury, CollateralManager, Governor) using UUPS proxy pattern:
 
 ```shell
 $ forge script script/Deploy.s.sol:DeployScript --rpc-url <your_rpc_url> --broadcast --private-key <your_private_key>

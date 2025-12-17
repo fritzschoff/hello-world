@@ -1,0 +1,19 @@
+{
+  "name": "stablecoin-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "app"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=app",
+    "build": "npm run build --workspace=app",
+    "test:contracts": "npm run test --workspace=contracts",
+    "build:contracts": "npm run build --workspace=contracts"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
+

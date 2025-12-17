@@ -1,108 +1,121 @@
-## Project Overview
+# Stablecoin Protocol Monorepo
 
-This project implements a collateralized stablecoin system using ERC4626 vault shares as collateral. Users can deposit vault shares and automatically receive stablecoin based on a 150% collateralization ratio.
+A monorepo containing the Stablecoin Protocol smart contracts and Next.js frontend application.
+
+## Structure
+
+```
+hello-world/
+├── contracts/          # Solidity smart contracts (Foundry)
+├── app/                # Next.js frontend application
+└── package.json        # Root workspace configuration
+```
+
+## Contracts
+
+The contracts directory contains all Solidity smart contracts, tests, and deployment scripts.
+
+### Key Contracts
+
+- **Stablecoin**: ERC20 governance token with voting capabilities
+- **CollateralManager**: Manages collateral deposits and stablecoin minting
+- **Governor**: Governance contract for protocol parameter changes
+
+### Commands
+
+```bash
+cd contracts
+forge build          # Build contracts
+forge test           # Run tests
+forge test --fuzz-runs 1000  # Run tests with fuzzing
+forge script script/Deploy.s.sol:DeployScript  # Deploy contracts
+```
+
+## Frontend App
+
+The app directory contains a Next.js application for interacting with the protocol.
+
+### Features
+
+- Wallet connection via RainbowKit
+- View position (collateral, debt, health factor)
+- Deposit collateral and mint stablecoin
+- Repay debt
+- All queries use React Query
+- Blockchain operations use Viem
+
+### Setup
+
+1. Install dependencies:
+```bash
+cd app
+npm install
+```
+
+2. Copy environment variables:
+```bash
+cp .env.example .env.local
+```
+
+3. Set contract addresses in `.env.local`:
+```
+NEXT_PUBLIC_STABLECOIN_ADDRESS=0x...
+NEXT_PUBLIC_COLLATERAL_MANAGER_ADDRESS=0x...
+NEXT_PUBLIC_GOVERNOR_ADDRESS=0x...
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+```
+
+4. Run development server:
+```bash
+npm run dev
+```
+
+### Tech Stack
+
+- **Next.js 16**: React framework
+- **Wagmi**: React hooks for Ethereum
+- **RainbowKit**: Wallet connection UI
+- **Viem**: TypeScript Ethereum library
+- **React Query**: Data fetching and caching
+- **Tailwind CSS**: Styling
+
+## Development
+
+### From Root
+
+```bash
+# Install all dependencies
+npm install
+
+# Run frontend
+npm run dev
+
+# Test contracts
+npm run test:contracts
+
+# Build contracts
+npm run build:contracts
+```
+
+## Deployment
 
 ### Contracts
 
-- **Stablecoin**: Upgradeable ERC20 stablecoin token
-- **CollateralManager**: Manages collateral deposits and stablecoin minting
-- **Vault**: ERC4626 vault for asset management
-- **HelloWorld**: Upgradeable contract template
-
-All contracts use the UUPS (Universal Upgradeable Proxy Standard) pattern for upgradeability.
-
-## Foundry
-
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+Deploy contracts using the deployment script:
+```bash
+cd contracts
+forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --private-key $PRIVATE_KEY
 ```
 
-### Test
+### Frontend
 
-```shell
-$ forge test
+Deploy to Vercel or your preferred hosting:
+```bash
+cd app
+npm run build
 ```
 
-### Format
+## License
 
-```shell
-$ forge fmt
-```
+MIT
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-#### Deploy All Contracts
-
-Deploy all contracts (HelloWorld, Stablecoin, CollateralManager) using UUPS proxy pattern:
-
-```shell
-$ forge script script/Deploy.s.sol:DeployScript --rpc-url <your_rpc_url> --broadcast --private-key <your_private_key>
-```
-
-The script will:
-- Deploy implementation contracts
-- Deploy ERC1967Proxy for each contract
-- Initialize each proxy
-- Set CollateralManager as minter for Stablecoin
-- Output all contract addresses
-
-**Important**: Use the proxy addresses (not implementation addresses) for interactions.
-
-#### Add Supported Vault
-
-Add an ERC4626 vault to the CollateralManager:
-
-```shell
-$ export COLLATERAL_MANAGER_ADDRESS=0x...
-$ export VAULT_ADDRESS=0x...
-$ forge script script/AddVault.s.sol:AddVaultScript --rpc-url <your_rpc_url> --broadcast --private-key <your_private_key>
-```
-
-#### Deploy Counter (Example)
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```

@@ -1,0 +1,25 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["dependencies"]
+remappings = [
+    "@openzeppelin/contracts-upgradeable/=dependencies/@openzeppelin-contracts-upgradeable-5.4.0/",
+    "@openzeppelin/contracts/=dependencies/@openzeppelin-contracts-5.4.0/",
+]
+solc_version = "0.8.30"
+
+[soldeer]
+remappings_generate = true
+
+[rpc_endpoints]
+optimism = "https://optimism.alchemyapi.io/v2/1234567"
+mainnet = "${RPC_MAINNET}"
+goerli = "https://eth-goerli.alchemyapi.io/v2/${GOERLI_API_KEY}"
+
+[dependencies]
+forge-std = "1.11.0"
+"@openzeppelin-contracts" = "5.4.0"
+openzeppelin-foundry-upgrades = "0.4.0"
+"@openzeppelin-contracts-upgradeable" = "5.4.0"
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

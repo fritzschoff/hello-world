@@ -1,66 +1,149 @@
-## Foundry
+# Stablecoin Protocol Monorepo
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+A monorepo containing the Stablecoin Protocol smart contracts and Next.js frontend application.
 
-Foundry consists of:
+## Structure
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```
+hello-world/
+├── contracts/          # Solidity smart contracts (Foundry)
+├── ui/                # Next.js frontend application
+└── package.json        # Root workspace configuration
 ```
 
-### Test
+## Contracts
 
-```shell
-$ forge test
+The contracts directory contains all Solidity smart contracts, tests, and deployment scripts.
+
+### Key Contracts
+
+- **Stablecoin**: ERC20 governance token with voting capabilities
+- **CollateralManager**: Manages collateral deposits and stablecoin minting
+- **Governor**: Governance contract for protocol parameter changes
+
+### Commands
+
+```bash
+cd contracts
+forge build          # Build contracts
+forge test           # Run tests
+forge test --fuzz-runs 1000  # Run tests with fuzzing
+forge script script/Deploy.s.sol:DeployScript  # Deploy contracts
 ```
 
-### Format
+## Frontend UI
 
-```shell
-$ forge fmt
+The ui directory contains a Next.js application for interacting with the protocol.
+
+### Features
+
+- Wallet connection via RainbowKit
+- View position (collateral, debt, health factor)
+- Deposit collateral and mint stablecoin
+- Repay debt
+- All queries use React Query
+- Blockchain operations use Viem
+
+### Setup
+
+1. Install dependencies:
+
+```bash
+cd ui
+npm install
 ```
 
-### Gas Snapshots
+2. Copy environment variables:
 
-```shell
-$ forge snapshot
+```bash
+cp .env.example .env.local
 ```
 
-### Anvil
+3. Set contract addresses in `.env.local`:
 
-```shell
-$ anvil
+```
+NEXT_PUBLIC_STABLECOIN_ADDRESS=0x...
+NEXT_PUBLIC_COLLATERAL_MANAGER_ADDRESS=0x...
+NEXT_PUBLIC_GOVERNOR_ADDRESS=0x...
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
 ```
 
-### Deploy
+4. Run development server:
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```bash
+npm run dev
 ```
 
-### Cast
+### Tech Stack
 
-```shell
-$ cast <subcommand>
+- **Next.js 16**: React framework
+- **Wagmi**: React hooks for Ethereum
+- **RainbowKit**: Wallet connection UI
+- **Viem**: TypeScript Ethereum library
+- **React Query**: Data fetching and caching
+- **Tailwind CSS**: Styling
+
+## Development
+
+### From Root
+
+```bash
+# Install all dependencies
+npm install
+
+# Run frontend
+npm run dev
+
+# Test contracts
+npm run test:contracts
+
+# Build contracts
+npm run build:contracts
+
+# Format contracts
+npm run format:contracts
+
+# Lint UI
+npm run lint:ui
 ```
 
-### Help
+### Pre-commit Hooks
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+This repository uses Husky to run pre-commit hooks that:
+
+- Format Solidity contracts with `forge fmt`
+- Lint the UI with Next.js ESLint
+
+The hooks run automatically on `git commit`. To manually run:
+
+```bash
+# Format all contracts
+npm run format:contracts
+
+# Lint UI
+npm run lint:ui
 ```
+
+## Deployment
+
+### Contracts
+
+Deploy contracts using the deployment script:
+
+```bash
+cd contracts
+forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --private-key $PRIVATE_KEY
+```
+
+### Frontend
+
+Deploy to Vercel or your preferred hosting:
+
+```bash
+cd ui
+npm run build
+```
+
+## License
+
+MIT

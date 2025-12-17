@@ -1,0 +1,31 @@
+{
+  "name": "stablecoin-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "contracts",
+    "ui"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=ui",
+    "build": "npm run build --workspace=ui",
+    "test:contracts": "npm run test --workspace=contracts",
+    "build:contracts": "npm run build --workspace=contracts",
+    "prepare": "husky install",
+    "format:contracts": "cd contracts && forge fmt --check",
+    "lint:ui": "cd ui && npm run lint"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.2.5"
+  },
+  "lint-staged": {
+    "contracts/{src,test,script}/**/*.sol": [
+      "bash -c 'cd contracts && forge fmt'"
+    ],
+    "ui/**/*.{ts,tsx,js,jsx}": [
+      "bash -c 'cd ui && npm run lint'"
+    ]
+  }
+}

@@ -2,8 +2,6 @@ name: CI
 
 on:
   push:
-  pull_request:
-  workflow_dispatch:
 
 env:
   FOUNDRY_PROFILE: ci
@@ -29,7 +27,7 @@ jobs:
 
       - name: Run Forge fmt
         run: |
-          forge fmt --check
+          cd contracts && forge fmt --check
         id: fmt
 
       - name: Run Forge build

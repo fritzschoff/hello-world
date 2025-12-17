@@ -1,0 +1,13 @@
+{
+  "name": "@stablecoin/contracts",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "forge build",
+    "test": "forge test",
+    "test:fuzz": "forge test --fuzz-runs 1000",
+    "deploy": "forge script script/Deploy.s.sol:DeployScript",
+    "add-vault": "forge script script/AddVault.s.sol:AddVaultScript"
+  }
+}
+

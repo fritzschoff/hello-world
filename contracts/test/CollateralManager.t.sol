@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {ERC4626} from "@openzeppelin/contracts/token/ERC20/extensions/ERC4626.sol";
 import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import {IERC4626} from "@openzeppelin/contracts/interfaces/IERC4626.sol";
 import {Stablecoin} from "../src/Stablecoin.sol";
 import {CollateralManager} from "../src/CollateralManager.sol";
@@ -30,6 +31,8 @@ contract MockVault is ERC4626 {
 }
 
 contract CollateralManagerTest is Test {
+    using SafeERC20 for IERC20;
+
     Stablecoin public stablecoin;
     CollateralManager public collateralManager;
     MockERC20 public asset;
@@ -222,7 +225,7 @@ contract CollateralManagerTest is Test {
         uint256 collateralValue = vault.convertToAssets(shares);
 
         vm.startPrank(anotherUser);
-        stablecoin.transfer(liquidator, anotherDebt);
+        IERC20(address(stablecoin)).safeTransfer(liquidator, anotherDebt);
         vm.stopPrank();
 
         vm.warp(block.timestamp + 365 days);
@@ -232,7 +235,7 @@ contract CollateralManagerTest is Test {
 
         vm.stopPrank();
         vm.prank(address(vault));
-        asset.transfer(address(0xdead), assetsToRemove);
+        IERC20(address(asset)).safeTransfer(address(0xdead), assetsToRemove);
 
         vm.startPrank(liquidator);
         require(collateralManager.isLiquidatable(user), "Position must be liquidatable");
@@ -264,7 +267,7 @@ contract CollateralManagerTest is Test {
 
         vm.warp(block.timestamp + 365 days);
         vm.prank(address(vault));
-        asset.transfer(address(0xdead), depositAmount / 2);
+        IERC20(address(asset)).safeTransfer(address(0xdead), depositAmount / 2);
 
         assertTrue(collateralManager.isLiquidatable(user));
     }
@@ -355,7 +358,7 @@ contract CollateralManagerTest is Test {
         uint256 debt = collateralManager.userDebt(user);
 
         vm.startPrank(anotherUser);
-        stablecoin.transfer(liquidator, anotherDebt);
+        IERC20(address(stablecoin)).safeTransfer(liquidator, anotherDebt);
         vm.stopPrank();
 
         vm.startPrank(liquidator);

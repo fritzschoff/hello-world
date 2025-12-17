@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
 import {Stablecoin} from "../src/Stablecoin.sol";
 import {CollateralManager} from "../src/CollateralManager.sol";
@@ -46,7 +46,18 @@ contract GovernorTest is Test {
         Governor governorImpl = new Governor();
         bytes memory governorInitData = abi.encodeCall(
             Governor.initialize,
-            (stablecoin, owner, uint48(VOTING_DELAY), uint32(VOTING_PERIOD), PROPOSAL_THRESHOLD, QUORUM_NUMERATOR)
+            (
+                stablecoin,
+                owner,
+                // casting to 'uint48' is safe because VOTING_DELAY is 1 days which fits in uint48
+                // forge-lint: disable-next-line(unsafe-typecast)
+                uint48(VOTING_DELAY),
+                // casting to 'uint32' is safe because VOTING_PERIOD is 7 days which fits in uint32
+                // forge-lint: disable-next-line(unsafe-typecast)
+                uint32(VOTING_PERIOD),
+                PROPOSAL_THRESHOLD,
+                QUORUM_NUMERATOR
+            )
         );
         ERC1967Proxy governorProxy = new ERC1967Proxy(address(governorImpl), governorInitData);
         governor = Governor(payable(address(governorProxy)));

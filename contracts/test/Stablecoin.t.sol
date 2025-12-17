@@ -1,12 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import {Test, console} from "forge-std/Test.sol";
+import {Test} from "forge-std/Test.sol";
 import {ERC1967Proxy} from "@openzeppelin/contracts/proxy/ERC1967/ERC1967Proxy.sol";
+import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Stablecoin} from "../src/Stablecoin.sol";
-import {IERC20Permit} from "@openzeppelin/contracts/token/ERC20/extensions/IERC20Permit.sol";
 
 contract StablecoinTest is Test {
+    using SafeERC20 for IERC20;
+
     Stablecoin public stablecoin;
     address public owner = address(1);
     address public minter = address(2);
@@ -138,7 +141,7 @@ contract StablecoinTest is Test {
         vm.roll(block.number + 1);
 
         vm.prank(user);
-        stablecoin.transfer(recipient, amount1);
+        IERC20(address(stablecoin)).safeTransfer(recipient, amount1);
 
         vm.prank(recipient);
         stablecoin.delegate(recipient);

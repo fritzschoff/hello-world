@@ -8,6 +8,10 @@ remappings = [
 ]
 solc_version = "0.8.30"
 
+# Exclude dependencies from formatting
+[fmt]
+exclude = ["dependencies"]
+
 [soldeer]
 remappings_generate = true
 

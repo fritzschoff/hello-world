@@ -12,7 +12,7 @@
     "test:contracts": "npm run test --workspace=contracts",
     "build:contracts": "npm run build --workspace=contracts",
     "prepare": "husky install",
-    "format:contracts": "cd contracts && forge fmt",
+    "format:contracts": "cd contracts && forge fmt --check",
     "lint:ui": "cd app && npm run lint"
   },
   "devDependencies": {
@@ -21,7 +21,7 @@
     "prettier": "^3.2.5"
   },
   "lint-staged": {
-    "contracts/**/*.sol": [
+    "contracts/{src,test,script}/**/*.sol": [
       "bash -c 'cd contracts && forge fmt'"
     ],
     "app/**/*.{ts,tsx,js,jsx}": [

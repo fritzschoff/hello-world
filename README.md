@@ -7,7 +7,7 @@ A monorepo containing the Stablecoin Protocol smart contracts and Next.js fronte
 ```
 hello-world/
 ├── contracts/          # Solidity smart contracts (Foundry)
-├── app/                # Next.js frontend application
+├── ui/                # Next.js frontend application
 └── package.json        # Root workspace configuration
 ```
 
@@ -31,9 +31,9 @@ forge test --fuzz-runs 1000  # Run tests with fuzzing
 forge script script/Deploy.s.sol:DeployScript  # Deploy contracts
 ```
 
-## Frontend App
+## Frontend UI
 
-The app directory contains a Next.js application for interacting with the protocol.
+The ui directory contains a Next.js application for interacting with the protocol.
 
 ### Features
 
@@ -49,7 +49,7 @@ The app directory contains a Next.js application for interacting with the protoc
 1. Install dependencies:
 
 ```bash
-cd app
+cd ui
 npm install
 ```
 
@@ -140,7 +140,7 @@ forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --p
 Deploy to Vercel or your preferred hosting:
 
 ```bash
-cd app
+cd ui
 npm run build
 ```
 

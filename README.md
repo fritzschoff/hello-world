@@ -1,19 +1,8 @@
-# Stablecoin Protocol Monorepo
+# Stablecoin Protocol
 
-A monorepo containing the Stablecoin Protocol smart contracts and Next.js frontend application.
-
-## Structure
-
-```
-hello-world/
-├── contracts/          # Solidity smart contracts (Foundry)
-├── ui/                # Next.js frontend application
-└── package.json        # Root workspace configuration
-```
+A collateralized stablecoin system using ERC4626 vault shares as collateral. Users can deposit vault shares and automatically receive stablecoin based on a configurable collateralization ratio.
 
 ## Contracts
-
-The contracts directory contains all Solidity smart contracts, tests, and deployment scripts.
 
 ### Key Contracts
 
@@ -22,156 +11,288 @@ The contracts directory contains all Solidity smart contracts, tests, and deploy
 - **Governor**: Governance contract for protocol parameter changes
 - **Treasury**: Holds protocol fees collected from minting operations
 
-### Commands
+All contracts use the UUPS (Universal Upgradeable Proxy Standard) pattern for upgradeability.
 
-```bash
-cd contracts
-forge build          # Build contracts
-forge test           # Run tests
-forge test --fuzz-runs 1000  # Run tests with fuzzing
-forge script script/Deploy.s.sol:DeployScript  # Deploy contracts
+## Foundry
 
-# Local development
-npm run anvil        # Start local blockchain (Anvil)
-npm run deploy:local # Deploy contracts to local Anvil instance
+**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+
+Foundry consists of:
+
+- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
+- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
+- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
+- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+
+## Documentation
+
+https://book.getfoundry.sh/
+
+## Usage
+
+### Build
+
+```shell
+npm run build
+# or
+forge build
 ```
 
-## Frontend UI
+### Test
 
-The ui directory contains a Next.js application for interacting with the protocol.
-
-### Features
-
-- Wallet connection via RainbowKit
-- View position (collateral, debt, health factor)
-- Deposit collateral and mint stablecoin
-- Mint more stablecoin on existing collateral
-- Repay debt
-- Governance: Create proposals, vote, and execute
-- Treasury: View and withdraw protocol fees
-- All queries use React Query
-- Blockchain operations use Viem
-
-### Setup
-
-1. Install dependencies:
-
-```bash
-cd ui
-npm install
+```shell
+npm run test
+# or
+forge test
 ```
 
-2. Deploy contracts to local Anvil (if not already deployed):
+### Fuzz Testing
 
-```bash
-cd contracts
-npm run anvil  # In one terminal (keep it running)
-npm run deploy:local  # In another terminal
+```shell
+npm run test:fuzz
+# or
+forge test --fuzz-runs 1000
 ```
 
-3. Copy environment variables:
+### Format
 
-```bash
-cd ui
-cp .env.example .env.local
+```shell
+npm run format
+# or
+forge fmt
 ```
 
-4. Get contract addresses from the deployment output. The proxy addresses are shown in the "Deployment Summary" section. For example:
+### Format Check
 
-```
-Stablecoin (proxy): 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
-CollateralManager (proxy): 0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
-Governor (proxy): 0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
-```
-
-5. Set contract addresses in `ui/.env.local`:
-
-```
-NEXT_PUBLIC_STABLECOIN_ADDRESS=0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9
-NEXT_PUBLIC_COLLATERAL_MANAGER_ADDRESS=0x5FC8d32690cc91D4c39d9d3abcBD16989F875707
-NEXT_PUBLIC_GOVERNOR_ADDRESS=0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6
-NEXT_PUBLIC_TREASURY_ADDRESS=0x...
-NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+```shell
+npm run format:check
+# or
+forge fmt --check
 ```
 
-**Note**: For localhost testing, WalletConnect project ID is optional. The localhost chain (Anvil, chain ID 31337) is already configured in the UI.
+### Gas Snapshots
 
-6. Run development server:
-
-```bash
-cd ui
-npm run dev
+```shell
+forge snapshot
 ```
 
-### Tech Stack
+### Anvil (Local Blockchain)
 
-- **Next.js 16**: React framework
-- **Wagmi**: React hooks for Ethereum
-- **RainbowKit**: Wallet connection UI
-- **Viem**: TypeScript Ethereum library
-- **React Query**: Data fetching and caching
-- **Tailwind CSS**: Styling
-
-## Development
-
-### From Root
-
-```bash
-# Install all dependencies
-npm install
-
-# Run frontend
-npm run dev
-
-# Test contracts
-npm run test:contracts
-
-# Build contracts
-npm run build:contracts
-
-# Format contracts
-npm run format:contracts
-
-# Lint UI
-npm run lint:ui
+```shell
+npm run anvil
+# or
+anvil
 ```
 
-### Pre-commit Hooks
+### Deploy
+
+#### Deploy All Contracts
+
+Deploy all contracts (Stablecoin, Treasury, CollateralManager, Governor) using UUPS proxy pattern:
+
+```shell
+npm run deploy:local
+# or
+forge script script/Deploy.s.sol:DeployScript --rpc-url http://localhost:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+```
+
+For other networks:
+
+```shell
+forge script script/Deploy.s.sol:DeployScript --rpc-url <your_rpc_url> --broadcast --private-key <your_private_key>
+```
+
+The script will:
+
+- Deploy implementation contracts
+- Deploy ERC1967Proxy for each contract
+- Initialize each proxy
+- Set CollateralManager as minter for Stablecoin
+- Transfer ownership to Governor
+- Output all contract addresses
+
+**Important**: Use the proxy addresses (not implementation addresses) for interactions.
+
+#### Add Supported Vault
+
+Add an ERC4626 vault to the CollateralManager:
+
+```shell
+export COLLATERAL_MANAGER_ADDRESS=0x...
+export VAULT_ADDRESS=0x...
+forge script script/AddVault.s.sol:AddVaultScript --rpc-url <your_rpc_url> --broadcast --private-key <your_private_key>
+```
+
+### Cast
+
+```shell
+cast <subcommand>
+```
+
+### Help
+
+```shell
+forge --help
+anvil --help
+cast --help
+```
+
+## Pre-commit Hooks
 
 This repository uses Husky to run pre-commit hooks that:
 
 - Format Solidity contracts with `forge fmt`
-- Lint the UI with Next.js ESLint
 
 The hooks run automatically on `git commit`. To manually run:
 
 ```bash
-# Format all contracts
-npm run format:contracts
-
-# Lint UI
-npm run lint:ui
+npm run format
 ```
 
-## Deployment
+## ERC-4626 Inflation Attack Demo
 
-### Contracts
+This repository includes a demonstration of the ERC-4626 inflation attack vulnerability, as described in the [MixBytes article](https://mixbytes.io/blog/overview-of-the-inflation-attack).
 
-Deploy contracts using the deployment script:
+### Attack Overview
+
+The inflation attack exploits rounding issues in ERC-4626 vaults. Attackers can manipulate the share calculation formula to make victims receive zero or minimal shares, allowing them to steal deposits.
+
+**Attack Formula:**
+
+```
+shares = totalSupply × assets / totalAssets
+```
+
+### Running the Demo
+
+1. **Start Anvil (local blockchain):**
 
 ```bash
-cd contracts
-forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast --private-key $PRIVATE_KEY
+npm run anvil
 ```
 
-### Frontend
+2. **Deploy the demo contracts:**
 
-Deploy to Vercel or your preferred hosting:
+```bash
+npm run deploy:attack-demo
+```
+
+3. **Set environment variables in `ui/.env.local`:**
+
+```env
+NEXT_PUBLIC_ASSET_ADDRESS=0x...
+NEXT_PUBLIC_VAULT_ADDRESS=0x...
+NEXT_PUBLIC_ATTACKER_ADDRESS=0x...
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+```
+
+4. **Start the UI:**
 
 ```bash
 cd ui
-npm run build
+npm install
+npm run dev
 ```
+
+5. **Run the attack tests:**
+
+```bash
+forge test --match-contract InflationAttackTest -vv
+```
+
+### Attack Steps
+
+1. **Mint Initial Share**: Attacker deposits 1 wei to mint the first share
+2. **Inflate Denominator**: Attacker transfers assets directly to vault, manipulating the formula
+3. **Victim Deposits**: Victim receives zero or minimal shares due to rounding
+4. **Attacker Steals**: Attacker redeems their share and receives almost all assets
+
+### Files
+
+- `src/VulnerableVault.sol` - Vulnerable ERC-4626 implementation
+- `src/Attacker.sol` - Attack contract demonstrating the exploit
+- `test/InflationAttack.t.sol` - Test cases showing the attack
+- `ui/` - React UI for visualizing the attack
+
+## Reentrancy Attack Demo (The DAO Hack)
+
+This repository also includes a demonstration of the reentrancy attack that led to the Ethereum hard fork in 2016, as described in the [Chainlink article](https://blog.chain.link/reentrancy-attacks-and-the-dao-hack/).
+
+### Attack Overview
+
+The reentrancy attack exploits the order of operations in smart contracts. When a contract sends ETH before updating state, an attacker can re-enter the function and drain funds.
+
+**The Vulnerability:**
+
+```solidity
+function withdraw() public {
+    uint256 bal = balances[msg.sender];
+    (bool sent, ) = msg.sender.call{value: bal}(""); // Send ETH first
+    balances[msg.sender] = 0; // Update balance after - TOO LATE!
+}
+```
+
+### Running the Demo
+
+1. **Start Anvil (local blockchain):**
+
+```bash
+npm run anvil
+```
+
+2. **Deploy the demo contracts:**
+
+```bash
+npm run deploy:reentrancy-demo
+```
+
+3. **Set environment variables in `ui/.env.local`:**
+
+```env
+NEXT_PUBLIC_VULNERABLE_DAO_ADDRESS=0x...
+NEXT_PUBLIC_SECURE_DAO_ADDRESS=0x...
+NEXT_PUBLIC_ATTACKER_ADDRESS=0x...
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_project_id
+```
+
+4. **Start the UI:**
+
+```bash
+cd ui
+npm run dev
+```
+
+5. **Run the attack tests:**
+
+```bash
+forge test --match-contract ReentrancyAttackTest -vv
+```
+
+### Attack Steps
+
+1. **Attacker Deposits**: Attacker deposits 1 ETH to the vulnerable DAO
+2. **Attacker Withdraws**: Calls `withdraw()` function
+3. **DAO Sends ETH**: Vulnerable DAO sends ETH to attacker before updating balance
+4. **Reentrancy**: Attacker's `receive()` function calls `withdraw()` again
+5. **Repeat**: Process repeats until DAO is drained
+6. **Balance Updated**: Only after all reentrancy calls complete does the balance get set to 0
+
+### Files
+
+- `src/VulnerableDAO.sol` - Vulnerable contract with reentrancy flaw
+- `src/SecureDAO.sol` - Fixed version with reentrancy guard
+- `src/ReentrancyAttacker.sol` - Attack contract demonstrating the exploit
+- `test/ReentrancyAttack.t.sol` - Test cases showing the attack
+- `ui/app/components/ReentrancyVisualization.tsx` - React UI for visualizing the attack
+
+### Historical Context
+
+The DAO hack in 2016:
+
+- Drained $150M worth of ETH from The DAO
+- Led to a hard fork of Ethereum
+- Created Ethereum (current chain) and Ethereum Classic (original chain)
+- 85% of the community voted for the fork to recover funds
 
 ## License
 

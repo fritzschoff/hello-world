@@ -1,31 +1,32 @@
 {
-  "name": "stablecoin-monorepo",
+  "name": "hello-world",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "contracts",
-    "ui"
-  ],
   "scripts": {
-    "dev": "npm run dev --workspace=ui",
-    "build": "npm run build --workspace=ui",
-    "test:contracts": "npm run test --workspace=contracts",
-    "build:contracts": "npm run build --workspace=contracts",
-    "prepare": "husky install",
-    "format:contracts": "cd contracts && forge fmt --check",
-    "lint:ui": "cd ui && npm run lint"
+    "build": "forge build",
+    "test": "forge test",
+    "test:fuzz": "forge test --fuzz-runs 1000",
+    "anvil": "anvil",
+    "deploy:local": "forge script script/Deploy.s.sol:DeployScript --rpc-url http://localhost:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+    "deploy:attack-demo": "forge script script/DeployAttackDemo.s.sol:DeployAttackDemoScript --rpc-url http://localhost:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+    "deploy:reentrancy-demo": "forge script script/DeployReentrancyDemo.s.sol:DeployReentrancyDemoScript --rpc-url http://localhost:8545 --broadcast --private-key 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80",
+    "format": "forge fmt",
+    "format:check": "forge fmt --check",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.7",
-    "prettier": "^3.2.5"
+    "lint-staged": "^16.2.7"
   },
   "lint-staged": {
-    "contracts/{src,test,script}/**/*.sol": [
-      "bash -c 'cd contracts && forge fmt'"
-    ],
-    "ui/**/*.{ts,tsx,js,jsx}": [
-      "bash -c 'cd ui && npm run lint'"
+    "{src,test,script}/**/*.sol": [
+      "forge fmt"
     ]
+  },
+  "dependencies": {
+    "@rainbow-me/rainbowkit": "^2.2.10",
+    "@tanstack/react-query": "^5.90.12",
+    "viem": "^2.43.1",
+    "wagmi": "^2.19.5"
   }
 }
